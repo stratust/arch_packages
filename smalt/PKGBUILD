@@ -1,0 +1,25 @@
+# Maintainer: Thiago Yukio Kikuchi Oliveira <stratust@gmail.com>
+
+pkgname=smalt
+pkgver=0.6.0
+pkgrel=1
+pkgdesc="SMALT efficiently aligns DNA sequencing reads with genomic reference sequences."
+arch=('i686' 'x86_64')
+url="http://www.sanger.ac.uk/resources/software/smalt"
+license=('GPL')
+source=(ftp://ftp.sanger.ac.uk/pub4/resources/software/smalt/smalt-0.6.0.tgz)
+md5sums=(d90d8999773c305e604cb24df98b0f88)
+
+build() {
+		cd $srcdir/$pkgname-$pkgver
+		
+		#cd $srcdir/BEDTools-Version-$pkgver/bin
+		install -d $pkgdir/usr/bin
+		if [[ `uname -m` == 'x86_64' ]] ;then
+			mv smalt_x86_64 smalt
+		else
+			mv smalt_i686 smalt
+		fi
+
+		install smalt $pkgdir/usr/bin
+}

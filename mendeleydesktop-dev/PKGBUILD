@@ -1,0 +1,45 @@
+# Maintainer: Thiago Yukio Kikuchi Oliveira <stratust@gmail.com>
+
+pkgname=mendeleydesktop-dev
+_pkgname=mendeleydesktop
+pkgver=1.5.4
+_pkgver=1.5-dev4
+pkgrel=1
+pkgdesc="Academic software for managing and sharing research papers (desktop client)"
+url="http://www.mendeley.com/download-mendeley-desktop/preview/"
+arch=(i686 x86_64)
+
+license=(custom:mendeley_eula)
+depends=(libpng12 python2 qt)
+provides=("$_pkgname=$pkgver")
+conflicts=("$_pkgname")
+install=mendeleydesktop.install
+_arch=$CARCH
+[[ $CARCH = i686 ]] && _arch=i486
+
+source=("http://download.mendeley.com/linux/$_pkgname-$_pkgver-linux-$_arch.tar.bz2")
+md5sums=('c4883e644372f42d06ae0069e039263e' '7f91e529910f095cb44d7c400484403e')
+
+package() {
+	cd "$_pkgname-$_pkgver-linux-$_arch"
+
+	find share/doc/mendeleydesktop/ -iname "*.txt" -delete
+	install -dm755 "$pkgdir/opt/$pkgname/bin"
+	mv lib share "$pkgdir/opt/$pkgname/"
+
+	sed -i 's@^\s*subprocess\.Popen(\[MENDELEY_BASE_PATH+"/bin/install-mendeley-link-handler\.sh".*$@#&@' "bin/$_pkgname"
+	install -Dm755 "bin/$_pkgname" "$pkgdir/opt/$pkgname/bin/$_pkgname"
+	install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+	install -dm755 "$pkgdir/usr/bin/"
+	ln -s "/opt/$pkgname/bin/$_pkgname" "$pkgdir/usr/bin/$_pkgname"
+
+	install -dm755 "$pkgdir/usr/share/applications"
+	ln -s "/opt/$pkgname/share/applications/mendeleydesktop.desktop" "$pkgdir/usr/share/applications/"
+
+
+	for size in 16 22 32 48 64 128; do
+	    install -dm755 "$pkgdir/usr/share/icons/hicolor/${size}x${size}/apps"
+	    ln -s "/opt/$pkgname/share/icons/hicolor/${size}x${size}/apps/$_pkgname.png" \
+		  "$pkgdir/usr/share/icons/hicolor/${size}x${size}/apps"
+	done
+}
