@@ -1,0 +1,50 @@
+# Maintainer : Thiago Yukio Kikuchi Oliveira <stratust AT gmail DOT com>
+pkgname=nvidia-ice
+pkgver=295.33
+pkgrel=1
+_goodkver=3.2.13-1
+_badkver=3.3
+_kernver=${_goodkver}-ice
+_extramodules=extramodules-3.2-ice
+pkgdesc="NVIDIA drivers for linux-pf."
+arch=('i686' 'x86_64')
+url="http://www.nvidia.com/"
+depends=("linux-ice>=${_goodkver}" "linux-ice<${_badkver}" "nvidia-utils=${pkgver}")
+makedepends=("linux-headers>=${_goodkver}" "linux-headers<${_badkver}")
+conflicts=('nvidia-96xx' 'nvidia-173xx')
+license=('custom')
+install=nvidia.install
+options=(!strip)
+
+if [ "$CARCH" = "i686" ]; then
+    _arch='x86'
+    _pkg="NVIDIA-Linux-${_arch}-${pkgver}"
+    source=("http://us.download.nvidia.com/XFree86/Linux-${_arch}/${pkgver}/${_pkg}.run")
+    md5sums=('1634fb3115526caeae5eb8227282bf17')
+elif [ "$CARCH" = "x86_64" ]; then
+    _arch='x86_64'
+    _pkg="NVIDIA-Linux-${_arch}-${pkgver}-no-compat32"
+    source=("http://us.download.nvidia.com/XFree86/Linux-${_arch}/${pkgver}/${_pkg}.run")
+    md5sums=('04e814843bcaf23efa0b4b3df4ea2700')
+fi
+
+build() {
+    cd "${srcdir}"
+    [[ -d "${_pkg}" ]] && rm -rf "${_pkg}"
+    sh "${_pkg}.run" --extract-only
+    cd "${_pkg}/kernel"
+    make SYSSRC=/lib/modules/"${_kernver}/build" module
+}
+
+package() {
+    install -D -m644 "${srcdir}/${_pkg}/kernel/nvidia.ko" \
+        "${pkgdir}/lib/modules/${_extramodules}/nvidia.ko"
+    install -d -m755 "${pkgdir}/lib/modprobe.d"
+    echo "blacklist nouveau" >> "${pkgdir}/lib/modprobe.d/nvidia-ice.conf"
+    echo "blacklist nvidiafb" >> "${pkgdir}/lib/modprobe.d/nvidia-ice.conf"
+    sed -i -e "s/KERNEL_VERSION='.*'/KERNEL_VERSION='${_kernver}'/" \
+	    -e "s/EXTRAMODULES='.*'/EXTRAMODULES='${_extramodules}'/" "${startdir}/nvidia.install"
+    gzip -9 "${pkgdir}/lib/modules/${_extramodules}/nvidia.ko"
+    install -D -m644 "${srcdir}/${_pkg}/LICENSE" \
+        "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}
