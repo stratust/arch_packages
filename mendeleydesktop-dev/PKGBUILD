@@ -1,16 +1,15 @@
 # Maintainer: Thiago Yukio Kikuchi Oliveira <stratust at gmail dot com>
-
 pkgname=mendeleydesktop-dev
 _pkgname=mendeleydesktop
-pkgver=1.6
-_pkgver=1.6
+pkgver=1.7.4
+_pkgver=1.7-dev4
 pkgrel=1
 pkgdesc="Academic software for managing and sharing research papers (desktop client)"
 url="http://www.mendeley.com/download-mendeley-desktop/preview/"
 arch=(i686 x86_64)
 
 license=(custom:mendeley_eula)
-depends=(libpng python2 qt)
+depends=(libpng python2 qt qtwebkit)
 provides=("$_pkgname=$pkgver")
 conflicts=("$_pkgname")
 install=mendeleydesktop.install
@@ -18,10 +17,10 @@ _arch=$CARCH
 [[ $CARCH = i686 ]] && _arch=i486
 
 source=("http://download.mendeley.com/linux/$_pkgname-$_pkgver-linux-$_arch.tar.bz2")
-md5sums=('b16ef539a7749673487fc190cef628d5')
+md5sums=('97ccb68214c784501a4624702b272b4b')
 
 if [[ $CARCH = x86_64 ]]; then
-	md5sums=('606bd69fefa6a9da9b06447bb72906c8')
+	md5sums=('9c3aaa31276d7001676203ce08e8ba9a')
 fi
 
 package() {
