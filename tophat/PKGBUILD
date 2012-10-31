@@ -1,7 +1,7 @@
 # Maintainer: Thiago Yukio Kikuchi Oliveira <stratust@gmail.com>
 
 pkgname=tophat
-pkgver=2.0.3
+pkgver=2.0.5
 pkgrel=1
 pkgdesc="TopHat is a fast splice junction mapper for RNA-Seq reads."
 arch=('x86_64' 'i686')
@@ -9,20 +9,21 @@ url="http://tophat.cbcb.umd.edu"
 license=('Artistic')
 depends=('boost' 'python2' 'samtools' 'bowtie2' 'perl')
 source=(http://tophat.cbcb.umd.edu/downloads/$pkgname-$pkgver.tar.gz)
-md5sums=('3fb378eb7b7bd56c70a7e9d83cb81a5c')
+md5sums=('043b63b34313d76a22cb1bea29f5054d')
 
 build() {
+  
+
   cd $srcdir/$pkgname-$pkgver
   # Tophat use python2 but archlinux uses python3 as default python
   sed -i "s|#!/usr/bin/python$|#!/usr/bin/python2|" src/tophat
   sed -i "s|#!/usr/bin/python$|#!/usr/bin/python2|" src/bed_to_juncs
 
+  export LDFLAGS="-lboost_system"
+  export MAKEFLAGS="-j1"
+
   ./configure --prefix="$pkgdir/usr"
 
-  # I had problems with parallell make
-  # Comment below to use your configuration instead
-  export MAKEFLAGS="-j1"
-  
   make
   make install
 
