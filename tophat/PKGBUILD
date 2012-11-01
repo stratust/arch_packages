@@ -1,8 +1,8 @@
-# Maintainer: Thiago Yukio Kikuchi Oliveira <stratust@gmail.com>
+# Maintainer: Thiago Yukio Kikuchi Oliveira <stratust at gmail dot com>
 
 pkgname=tophat
 pkgver=2.0.5
-pkgrel=1
+pkgrel=2
 pkgdesc="TopHat is a fast splice junction mapper for RNA-Seq reads."
 arch=('x86_64' 'i686')
 url="http://tophat.cbcb.umd.edu"
@@ -13,18 +13,19 @@ md5sums=('043b63b34313d76a22cb1bea29f5054d')
 
 build() {
   
+  # Tophat use python2 but archlinux uses python3 as default python
+  cd $srcdir/$pkgname-$pkgver/src
+  python_files="bed_to_juncs contig_to_chr_coords sra_to_solid tophat tophat-fusion-post"
+  sed -i "s|#!/usr/bin/env python$|#!/usr/bin/env python2|" $python_files
 
   cd $srcdir/$pkgname-$pkgver
-  # Tophat use python2 but archlinux uses python3 as default python
-  sed -i "s|#!/usr/bin/python$|#!/usr/bin/python2|" src/tophat
-  sed -i "s|#!/usr/bin/python$|#!/usr/bin/python2|" src/bed_to_juncs
 
   export LDFLAGS="-lboost_system"
   export MAKEFLAGS="-j1"
 
-  ./configure --prefix="$pkgdir/usr"
+  ./configure --prefix="/usr"
 
-  make
-  make install
-
+  make DESTDIR="$pkgdir"
+  make install DESTDIR="$pkgdir"
+  
 }
