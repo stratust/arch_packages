@@ -1,8 +1,8 @@
 # Maintainer: Thiago Yukio Kikuchi Oliveira <stratust at gmail dot com>
 pkgname=mendeleydesktop-dev
 _pkgname=mendeleydesktop
-pkgver=1.7.4
-_pkgver=1.7-dev4
+pkgver=1.7.5
+_pkgver=1.7-dev5
 pkgrel=1
 pkgdesc="Academic software for managing and sharing research papers (desktop client)"
 url="http://www.mendeley.com/download-mendeley-desktop/preview/"
@@ -17,10 +17,10 @@ _arch=$CARCH
 [[ $CARCH = i686 ]] && _arch=i486
 
 source=("http://download.mendeley.com/linux/$_pkgname-$_pkgver-linux-$_arch.tar.bz2")
-md5sums=('97ccb68214c784501a4624702b272b4b')
+md5sums=('6d068ffb28d085943aaa19e154cbb724')
 
 if [[ $CARCH = x86_64 ]]; then
-	md5sums=('9c3aaa31276d7001676203ce08e8ba9a')
+	md5sums=('d95578966603f54f9c9781906b1bcd8d')
 fi
 
 package() {
