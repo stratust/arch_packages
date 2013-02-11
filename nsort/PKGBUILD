@@ -1,6 +1,6 @@
-# Maintainer: Anders Mårtensson <anders@nemrod.se>
+# Maintainer: Thiago Yukio Kikuchi Oliveira (stratust at gmail dot com)
 pkgname=nsort
-pkgver=3.4.45
+pkgver=3.4.51
 pkgrel=1
 pkgdesc="Nsort is a sort/merge program that can quickly sort large amounts of data, using large numbers of processors and disks in parallel."
 arch=('x86_64')
@@ -8,10 +8,12 @@ url="http://www.ordinal.com"
 license=('unknown')
 makedepends=('rpmextract')
 options=('emptydirs')
-source=("http://www.ordinal.com/try.cgi/nsort-x86_64-3.4.45.rpm")
-md5sums=('8800fa552b53dd96fba3d4a6053ee839')
+source=("http://www.ordinal.com/try.cgi/nsort-x86_64-${pkgver}.rpm")
+md5sums=('1a32249cb2881fda6489daf97a894014')
 
 build() {
   cd "$pkgdir"
-  rpmextract.sh ../nsort-x86_64-3.4.45.rpm
+  rpmextract.sh ../nsort-x86_64-${pkgver}.rpm
+  mv ${pkgdir}/usr/lib64/* ${pkgdir}/usr/lib
+  rm -rf ${pkgdir}/usr/lib64
 }
