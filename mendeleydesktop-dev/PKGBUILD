@@ -2,15 +2,15 @@
 pkgname=mendeleydesktop-dev
 _pkgname=mendeleydesktop
 pkgver=1.8.1
-_pkgver=1.8.1-dev1
+_pkgver=1.8.1
 # pkgrel should reflect 'dev' number if possible
-pkgrel=1
+pkgrel=3
 pkgdesc="Academic software for managing and sharing research papers (desktop client)"
 url="http://www.mendeley.com/download-mendeley-desktop/preview/"
 arch=(i686 x86_64)
 
 license=(custom:mendeley_eula)
-depends=(libpng python2 qt qtwebkit)
+depends=(libpng python2 qt4 qtwebkit)
 provides=("$_pkgname=$pkgver")
 conflicts=("$_pkgname")
 install=mendeleydesktop.install
@@ -18,10 +18,10 @@ _arch=$CARCH
 [[ $CARCH = i686 ]] && _arch=i486
 
 source=("http://download.mendeley.com/linux/$_pkgname-$_pkgver-linux-$_arch.tar.bz2")
-md5sums=('f94b188914e349208b7ade1db5b9623e')
+md5sums=('75cdd9ab183931c8b9ba2fc6b2456ad3')
 
 if [[ $CARCH = x86_64 ]]; then
-	md5sums=('029333af40d75622dd32430d00b0a80e')
+	md5sums=('b0425fcae816eb049a78de8e3afe85ed')
 fi
 
 package() {
@@ -40,7 +40,6 @@ package() {
 	install -Dm755 "bin/$_pkgname" "$pkgdir/opt/$pkgname/bin/$_pkgname"
 	install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 	install -dm755 "$pkgdir/usr/bin/"
-
 
 	ln -s "/opt/$pkgname/bin/$_pkgname" "$pkgdir/usr/bin/$_pkgname"
 
