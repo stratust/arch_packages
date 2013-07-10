@@ -9,10 +9,11 @@ url="http://hannonlab.cshl.edu/fastx_toolkit/"
 license=('GPL')
 source=(http://hannonlab.cshl.edu/fastx_toolkit/$pkgname-$pkgver.tar.bz2)
 md5sums=('40e7df4e5a72efe50aa789af8caeb935')
-depends=('')
 
-build() {
-		cd $srcdir/$pkgname-$pkgver		
-		./configure --prefix=$pkgdir/usr
-		make install
+
+
+package(){
+	cd $srcdir/$pkgname-$pkgver		
+	./configure --prefix="/usr"
+	make DESTDIR="$pkgdir" install
 }

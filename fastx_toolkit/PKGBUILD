@@ -11,8 +11,8 @@ source=(http://hannonlab.cshl.edu/fastx_toolkit/$pkgname-$pkgver.tar.bz2)
 md5sums=('1d1238cb3029cb1c5d1a3eea7d7d2ca8')
 depends=('libgtextutils>=0.6.1')
 
-build() {
+package() {
 		cd $srcdir/$pkgname-$pkgver		
-		./configure --prefix=$pkgdir/usr
-		make install
+		./configure --prefix="/usr"
+		make DESTDIR="$pkgdir" install  
 }
