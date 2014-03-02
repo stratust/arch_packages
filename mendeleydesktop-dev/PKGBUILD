@@ -1,9 +1,8 @@
 # Maintainer: Thiago Yukio Kikuchi Oliveira <stratust at gmail dot com>
 pkgname=mendeleydesktop-dev
 _pkgname=mendeleydesktop
-pkgver=1.11.7
+pkgver=1.11.07
 _pkgver=1.11-dev7
-# pkgrel should reflect 'dev' number if possible
 pkgrel=1
 pkgdesc="Academic software for managing and sharing research papers (desktop client)"
 url="http://www.mendeley.com/download-mendeley-desktop/preview/"
