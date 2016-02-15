@@ -1,0 +1,22 @@
+pkgname="genometools"
+pkgver=1.5.8
+pkgrel=1
+pkgdesc='The GenomeTools genome analysis system is a free collection of bioinformatics tools (in the realm of genome informatics) combined into a single binary named gt.'
+arch=('i686' 'x86_64')
+url="http://genometools.org/"
+license=('GPL')
+makedepends=('make' 'gcc')
+
+source=("http://genometools.org/pub/${pkgname}-${pkgver}.tar.gz")
+
+md5sums=('35e18e844d8b78ec0a53640fa0ace929')
+
+build() {
+	cd "$srcdir/$pkgname-$pkgver"
+	make
+}
+
+package() {
+	cd "$srcdir/$pkgname-$pkgver"
+	make DESTDIR="$pkgdir/" install
+}
