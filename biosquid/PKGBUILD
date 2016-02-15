@@ -1,0 +1,24 @@
+pkgname="biosquid"
+pkgver=1.9
+pkgrel=1
+pkgdesc='biosquid: utilities for biological sequence analysis'
+arch=('i686' 'x86_64')
+url="https://launchpad.net/ubuntu/+source/biosquid"
+license=('GPL')
+makedepends=('make' 'gcc')
+source=('https://launchpad.net/ubuntu/+archive/primary/+files/biosquid_1.9g+cvs20050121.orig.tar.gz')
+
+md5sums=('75ca6e693bedb18086b9e5911f3c047a')
+
+build() {
+	cd "$srcdir/squid"
+	autoconf
+	CPPFLAGS="-DUSE_INTERP_ERRORLINE -DUSE_INTERP_RESULT" ./configure --prefix="/usr" --sbindir="/usr/bin"
+	make
+}
+
+package() {
+	cd "$srcdir/squid"
+	make install prefix=$pkgdir/usr
+
+}
