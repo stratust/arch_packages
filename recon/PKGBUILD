@@ -1,0 +1,26 @@
+pkgname="recon"
+pkgver=1.05
+pkgrel=1
+pkgdesc='RECON: a package for automated de novo identification of repeat families from genomic sequences'
+arch=('i686' 'x86_64')
+url="http://eddylab.org/software/recon/"
+license=('GPL')
+makedepends=('make' 'gcc')
+
+source=("http://eddylab.org/software/recon/RECON$pkgver.tar.gz")
+
+md5sums=('88ffd2b65def5e0847a2b0d069014716')
+
+build() {
+	cd "$srcdir/RECON$pkgver/src"
+	make
+}
+
+package() {
+	cd "$srcdir/RECON$pkgver/src"
+	make install
+	mkdir -p $pkgdir/usr/bin
+	perl -i -plane 's/bin\/perl/bin\/env perl/;s/\$path\s+\=\s+\"\"/\$path \= "\/usr\/bin"/g' $srcdir/RECON$pkgver/scripts/recon.pl 
+	cp $srcdir/RECON$pkgver/bin/* $pkgdir/usr/bin
+	cp $srcdir/RECON$pkgver/scripts/* $pkgdir/usr/bin
+}
