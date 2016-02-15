@@ -1,0 +1,21 @@
+pkgname="piler"
+pkgver=1.0
+pkgrel=1
+pkgdesc='PILER: identification and classification of genomic repeats.'
+arch=('i686' 'x86_64')
+url="http://www.drive5.com/piler/"
+license=('GPL')
+makedepends=('make' 'gcc')
+
+source=("http://www.drive5.com/piler/piler_source.tar.gz")
+
+md5sums=('6f351fb437d0cc6a1ec84f41998621c9')
+
+build() {
+	make
+}
+
+package() {
+	mkdir -p "$pkgdir/usr/bin"
+	mv $srcdir/piler2 $pkgdir/usr/bin/piler
+}
